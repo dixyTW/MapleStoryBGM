@@ -1,5 +1,5 @@
 # MStoryBGM
-Short Script that downloads all maplestory BGM (Only works for Mac)
+Short Script that downloads all maplestory BGM 
 
 Install all required dependencies via requirements.txt  
 Also install libav for pydub for ogg to mp3 file conversions
