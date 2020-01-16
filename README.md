@@ -1,4 +1,4 @@
-# MStoryBGM
+# MapleStoryBGM
 Short Script that downloads all maplestory BGM 
 
 Install all required dependencies via requirements.txt  
