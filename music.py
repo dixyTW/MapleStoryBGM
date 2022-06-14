@@ -2,22 +2,39 @@ import requests
 from lxml import html
 import os
 from pydub import AudioSegment
+from bs4 import BeautifulSoup 
+import json
+
+
+AudioSegment.converter = '/usr/local/Cellar/ffmpeg/5.0.1_2/bin/ffmpeg' # path to ffmpeg, can use avconv if installed correctly
 
 #html_lst = [] #1 - 601 
-page = requests.get("https://maplestory.fandom.com/wiki/Music")
-tree = html.fromstring(page.content)
-track_str = "ogg_player_"
-ogg_num = 602
-for num in range(1, ogg_num):
-	element = tree.get_element_by_id(track_str+str(num))
-	semi_lst = html.tostring(element).decode("utf-8").split(";") #url is always the 9th element (8th in index)
-	name = semi_lst[-1].split("alt=")[-1][1:-19]
-	url = semi_lst[8]
-	doc = requests.get(url)
-	filename_ogg = name + ".ogg"
-	filename_mp3 = name + ".mp3"
-	with open(filename_ogg, 'wb') as f:
-	    f.write(doc.content)
-	ogg_audio = AudioSegment.from_file(filename_ogg, format="ogg")
-	ogg_audio.export(filename_mp3, format="mp3")
-	os.remove(filename_ogg)
+pagenation = ["0-10", "11-20", "21-30", "31-40", "41-50", "51-60", "A-M", "N-Z_and_Miscellaneous"]
+base = "https://maplestory.fandom.com/wiki/Music#"
+data = []
+with open("bgm.json", 'r') as f:
+    data = json.load(f)
+# convert json data into filename:item format for easy matching
+dic = {}
+for item in data:
+    dic[item['filename']] = item
+
+r = requests.get(base)
+soup = BeautifulSoup(r.content, features='lxml')
+audio = soup.find_all("audio") # get all audio tag elements
+
+for a in audio:
+    url = a['src']
+    doc = requests.get(url)
+    name = [s for s in url.split("/") if s.endswith(".ogg")][0][:-4] #obtain name from the download link and trim file type
+    filename_ogg = name + ".ogg"
+    filename_mp3 = name + ".mp3"
+    with open(filename_ogg, 'wb') as f:
+        f.write(doc.content)
+    ogg_audio = AudioSegment.from_ogg(filename_ogg)
+    metadata = {'title': dic[name]['description'], 'artist': dic[name]['metadata']['artist'], 'album': 'Maplestory Soundtrack', 'year':dic[name]['metadata']['year']}
+    ogg_audio.export(filename_mp3, format="mp3", tags=metadata)
+    os.remove(filename_ogg)
+    
+
+

@@ -1,14 +1,16 @@
 # MapleStoryBGM
-Short Script that downloads all maplestory BGM 
+Short Script that downloads all maplestory BGM using Beautifulsoup 
 
 Install all required dependencies via requirements.txt  
-Also install libav for pydub for ogg to mp3 file conversions
+## IMPORTANT 
+Install ffmpeg for pydub for ogg to mp3 file conversions
 ```bash
-brew install libav
+brew install ffmpeg
 ```
-Songs are retrieved through the Maplestory Wiki (link: https://maplestory.fandom.com/wiki/Music)  
-If you check the source code for the page and search for "ogg_player_1"  
-You will find yourself at the first song of the list  
-This script only downloads 1-601  
-If you want songs beyond 601, go into the script and adjust the ogg_num variable for other songs  
+
+## Credits
+Songs are retrieved through the [Maplestory Wiki](https://maplestory.fandom.com/wiki/Music)  
+
+Metadata obtained from [maplestory-db](https://github.com/maplestory-music/maplebgm-db)
+
 
