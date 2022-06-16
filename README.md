@@ -1,5 +1,5 @@
 # MapleStoryBGM
-Short Script that downloads all maplestory BGM using Beautifulsoup 
+Short Script that downloads all Maplestory soundtracks on Maplestory Wiki using Beautifulsoup 
 
 Install all required dependencies via requirements.txt  
 ## IMPORTANT 
