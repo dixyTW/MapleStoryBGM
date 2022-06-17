@@ -43,11 +43,12 @@ for a in audio:
     with open(filename_ogg, 'wb') as f:
         f.write(doc.content)
     ogg_audio = AudioSegment.from_ogg(filename_ogg)
+    metadata = {}
     if name not in dic:
-        # Getting rid of random sound files that are not in maplestory-db
-        os.remove(filename_ogg)
-        continue
-    metadata = {'title': dic[name]['metadata']['title'], 'artist': dic[name]['metadata']['artist'], 'album': dic[name]['description'], 'year':dic[name]['metadata']['year']}
+        # inconsistent with maplestorr-db
+         metadata = {'title': name, 'artist': "", 'album': "", 'year': ""}
+    else:
+        metadata = {'title': dic[name]['metadata']['title'], 'artist': dic[name]['metadata']['title'], 'album': dic[name]['description'], 'year':dic[name]['metadata']['year']}
     ogg_audio.export(filename_mp3, format="mp3", tags=metadata)
     os.remove(filename_ogg)
     
