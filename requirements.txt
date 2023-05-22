@@ -1,4 +1,4 @@
 lxml==4.6.3
 pydub==0.23.1
-requests==2.20.0
+requests==2.31.0
 beautifulsoup4==4.10.0
